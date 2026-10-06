@@ -1,15 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TarefasService } from './tarefas.service.js';
-import { CriarTarefaDto } from './criar-tarefa.dto.js';
-import { AtualizarTarefaDto } from './atualizar-tarefa.dto.js';
+import { TarefasService } from './tarefas.service';
 
 @Controller('tarefas')
 export class TarefasController {
-  
   constructor(private readonly tarefasService: TarefasService) {}
 
   @Post()
-  async criar(@Body() dadosDaTarefa: CriarTarefaDto) {
+  async criar(@Body() dadosDaTarefa: any) {
     return await this.tarefasService.criar(dadosDaTarefa);
   }
 
@@ -18,13 +15,19 @@ export class TarefasController {
     return await this.tarefasService.listarTodas();
   }
 
+  @Get(':id')
+  async buscarUm(@Param('id') id: string) {
+    return await this.tarefasService.buscarUm(Number(id));
+  }
+
   @Patch(':id')
-  async atualizar(@Param('id') id: string, @Body() dadosDeAtualizacao: AtualizarTarefaDto) {
-    return await this.tarefasService.atualizar(id, dadosDeAtualizacao);
+  async atualizar(@Param('id') id: string, @Body() dadosDeAtualizacao: any) {
+    // A conversão Number(id) resolve o conflito de tipagem
+    return await this.tarefasService.atualizar(Number(id), dadosDeAtualizacao);
   }
 
   @Delete(':id')
   async remover(@Param('id') id: string) {
-    return await this.tarefasService.remover(id);
+    return await this.tarefasService.remover(Number(id));
   }
 }
