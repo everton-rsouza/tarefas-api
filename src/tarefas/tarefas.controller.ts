@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TarefasService } from './tarefas.service';
+import { TarefasService } from './tarefas.service.js'; // <- Adicionado .js
 
 @Controller('tarefas')
 export class TarefasController {
@@ -22,7 +22,6 @@ export class TarefasController {
 
   @Patch(':id')
   async atualizar(@Param('id') id: string, @Body() dadosDeAtualizacao: any) {
-    // A conversão Number(id) resolve o conflito de tipagem
     return await this.tarefasService.atualizar(Number(id), dadosDeAtualizacao);
   }
 
