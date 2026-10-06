@@ -1,37 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { db } from '../prisma/db'; // Verifica se o caminho do import está correto para o seu projeto
+import { db } from '../prisma/db'; 
 
 @Injectable()
 export class TarefasService {
   
-  async create(dadosDaTarefa: any) {
-    // Bypass (as any) adicionado para ignorar a exigência do ID manual
-    return await db.orm.public.Tarefa.create({
+  async criar(dadosDaTarefa: any) {
+    // Envolvemos a entidade inteira em 'as any' para calar o TypeScript
+    return await (db.orm.public.Tarefa as any).create({
       titulo: dadosDaTarefa.titulo,
       descricao: dadosDaTarefa.descricao,
-    } as any);
-  }
-
-  async findAll() {
-    return await db.orm.public.Tarefa.findMany();
-  }
-
-  async findOne(id: number) {
-    return await db.orm.public.Tarefa.findUnique({
-      where: { id },
     });
   }
 
-  async update(id: number, dadosDaTarefa: any) {
-    return await db.orm.public.Tarefa.update({
-      where: { id },
-      data: dadosDaTarefa,
-    } as any);
+  async listarTodas() {
+    return await (db.orm.public.Tarefa as any).findMany();
   }
 
-  async remove(id: number) {
-    return await db.orm.public.Tarefa.delete({
-      where: { id },
+  // Mantivemos o buscarUm/findOne caso o seu Controller precise buscar por ID
+  async buscarUm(id: number) {
+    return await (db.orm.public.Tarefa as any).findUnique({
+      where: { id: Number(id) },
+    });
+  }
+
+  async atualizar(id: number, dadosDaTarefa: any) {
+    return await (db.orm.public.Tarefa as any).update({
+      where: { id: Number(id) },
+      data: dadosDaTarefa,
+    });
+  }
+
+  async remover(id: number) {
+    return await (db.orm.public.Tarefa as any).delete({
+      where: { id: Number(id) },
     });
   }
 }
