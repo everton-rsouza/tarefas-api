@@ -1,6 +1,7 @@
 {
   "name": "tarefas-api",
   "version": "0.0.1",
+  "type": "module",
   "description": "API de Tarefas com NestJS e Prisma v8",
   "author": "Everton Ribeiro",
   "private": true,
