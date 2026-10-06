@@ -1,0 +1,6 @@
+model Tarefa {
+  id        String   @id @default(uuid())
+  titulo    String
+  descricao String?
+  concluida Boolean  @default(false)
+}

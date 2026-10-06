@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  postgres_db:
+    image: postgres:15 # A versão do Postgres
+    container_name: task_db # O nome do container
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: task_db
+    ports:
+      - "5432:5432" # Expõe a porta padrão do Postgres para o seu Windows acessar
